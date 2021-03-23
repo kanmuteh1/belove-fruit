@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fruits</title>
+    <style>
+        main{
+            display: grid;
+            justify-content: center;
+        }
+
+        /* BONUS */
+        
+        /* Apply style to this page */
+    </style>
+</head>
+<body>
+    <main>
+        <section id="nav-bar">
+            <a href="/">View Users</a>
+            <a href="/user/create">Create User</a>
+        </section>
+        <section id="users">
+            <!-- Display the users and their fruit here -->
+            <table id="table">
+                <thead>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Fruit</th>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        // TODO 3
+        /**
+         * Make a GET request to the "/users" route
+         * From the result, display the users and their fruits in the table above
+        */
+        function displayUsersAndFruit(){
+            fetch('/users')
+            .then((res) => res.json())
+            .then((data) => {
+                let users = data.data;
+                if (data.status === 'ok'){
+                    let count = 0;
+                    users.forEach(ele => {
+                        let html = `<tr>
+                            <td>${count + 1}.</td>
+                            <td>${ele.name}</td>
+                            <td>${ele.fruit_name}</td>
+                        </tr>`
+                        document.querySelector('tbody').insertAdjacentHTML("beforeend", html);
+                        count++;
+                    });                
+                }
+            })
+        }
+       displayUsersAndFruit()
+    </script>
+</body>
+</html>

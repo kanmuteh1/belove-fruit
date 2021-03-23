@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create User</title>
+    <style>
+        main{
+            display: grid;
+            justify-content: center;
+        }
+        input{
+            margin: 10px 0px;
+        }
+
+        /* BONUS */
+        
+        /* Apply style to this page */
+    </style>
+</head>
+<body>
+    <main>
+        <section id="nav-bar">
+            <a href="/">View Users</a>
+            <a href="/user/create">Create User</a>
+        </section>
+        <section id="form">
+            <div>
+                <input type="text" placeholder="Name" id="name">
+                <select id = "take-fruits">
+                    <option value="default">Select a fruit</option>
+                </select>
+                <br>
+                <button onclick="createUser()">Create</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // TODO 1
+        fetch('/fruits')
+            .then((res) => res.json())
+            .then((data) => {
+                let real_data = data.data;
+                real_data.forEach(ele => {
+                    let fruit = document.getElementById('take-fruits');
+                    let html =`<option value="${ele.id}">${ele.fruit_name}</option>`
+                    fruit.insertAdjacentHTML("beforeend", html)
+                });
+            })
+        /**
+         * Make a GET request to the "/fruits" route
+         * From the result, display the fruits in a select list to the user
+        */
+        
+        // TODO 2
+        function createUser(){
+            let name = document.getElementById('name').value;
+            let fruit = document.getElementById('take-fruits').value;
+            let info = {
+               name: name,
+               fruitname: fruit
+            }
+
+            fetch('/user/create',{
+            method: 'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(info)
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data)
+            })
+            /**
+             * Get the value from the input elements
+             * Make a POST request to the route "/user/create"
+            */
+        }
+    </script>
+</body>
+</html>
